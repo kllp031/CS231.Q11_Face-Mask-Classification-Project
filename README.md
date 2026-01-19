@@ -13,7 +13,7 @@
 </p>
 
 ---
-# **CS231 Course Project: Face Mask Classification**
+# **CS231 Course Project: Face Mask Classification** – A Comparative Study of Traditional ML and CNNs
 
 > This repository contains the implementation of a **Face Mask Classification System**, developed as the final project for **CS231.Q11 – Introduction to Computer Vision** at the **University of Information Technology (UIT – VNU-HCM)**.
 >
@@ -63,7 +63,7 @@
 ## **Repository Structure**
 ```text
 CS231.Q11_Face-Mask-Classification-Project/
-├── src/            # Model Training Source Code (jupyter notebook files)
+├── src/             # Model training notebooks (Jupyter)
 │   ├── CNN/                 	# Deep Learning CNN (Grayscale) training source code
 │   ├── HOG_KNN/               # KNN training with HOG features source code
 │   ├── HOG_RF/              	# Random Forest training with HOG features source code
@@ -164,7 +164,8 @@ The proposed system consists of three main components:
 - **Validation Set**: 800 images  
 - **Test Set**: 992 images  
 
-The dataset is well-balanced between the two classes, making it suitable for unbiased binary classification evaluation.
+> The dataset is well-balanced between the two classes, making it suitable for unbiased binary classification evaluation.
+> No identity or personal information is associated with the dataset, ensuring ethical use for academic research.
 
 ---
 
@@ -282,3 +283,125 @@ http://127.0.0.1:5000
 ```bash
 python demo_webcam.py
 ```
+
+---
+
+## **Demo Application**
+
+The real-time inference pipeline integrates the following stabilization techniques:
+
+- **Temporal Smoothing**: Aggregates predictions across consecutive frames to reduce sudden label changes.
+- **Centroid-based Tracking**: Maintains object identity across frames by tracking facial centroids.
+
+These techniques significantly mitigate label flickering and improve visual consistency in live video streams.  
+The system achieves **over 25 FPS** on standard consumer-grade hardware.
+
+<p align="center">
+  <img src="static/images/demo/flask_web_demo.png" alt="Flask Web Demo Interface" width="800">
+</p>
+
+---
+
+### **Test Accuracy Comparison**
+
+| Model            | Feature Descriptor | Accuracy |
+|------------------|-------------------|----------|
+| CNN              | Automatic (None)  | 0.9869 |
+| **SVM**          | **HOG (8×2)**     | **0.9899** |
+| SVM              | HOG (6×3)         | 0.9879 |
+| SVM              | LBP               | 0.9720 |
+| KNN              | HOG (8×2)         | 0.9839 |
+| KNN              | HOG (6×3)         | 0.9748 |
+| KNN              | LBP               | 0.9234 |
+| Random Forest    | HOG (8×2)         | 0.9819 |
+| Random Forest    | HOG (6×3)         | 0.9819 |
+| Random Forest    | LBP               | 0.9093 |
+
+Overall, HOG-based methods consistently outperform LBP-based methods, with SVM emerging as the most effective classifier.
+
+
+---
+
+### **Experimental Analysis**
+
+Based on the experimental results summarized above, several key observations can be drawn:
+
+1. **Superior Performance of HOG + SVM**
+
+   The combination of the **HOG (8×2)** feature descriptor and the **Support Vector Machine (SVM)** classifier achieves the highest classification accuracy (**0.9899**).  
+   This result demonstrates that, for datasets with relatively stable facial structures, **well-designed hand-crafted shape features** can provide highly discriminative representations.  
+   In this setting, explicit gradient-based edge information enables more effective class separation than a baseline CNN trained from scratch.
+
+2. **Robustness and Stability of the CNN Model**
+
+   The CNN model achieves a strong performance with an accuracy of **0.9869**, indicating excellent generalization ability.  
+   A major advantage of CNNs lies in their **end-to-end learning capability**, which eliminates the need for manual feature engineering and facilitates scalability when larger or more diverse datasets become available.
+
+3. **Effectiveness of the HOG (8×2) Configuration**
+
+   Across all traditional machine learning classifiers (SVM, KNN, and Random Forest), the **HOG (8×2)** configuration consistently outperforms or matches the **HOG (6×3)** configuration.  
+   The vertical cell partitioning of **8×2** is particularly effective in capturing **vertical symmetry and structural patterns** of faces and masks, which are crucial cues for mask detection.
+
+4. **Limitations of LBP Features**
+
+   The **LBP (Local Binary Pattern)** descriptor yields the lowest accuracy across most classifiers, especially when combined with KNN and Random Forest.  
+   This suggests that **edge and shape information (gradients)** is more informative than **surface texture information** for the face mask classification task.
+
+---
+
+### **Overall Conclusion**
+
+The experimental evaluation confirms that, for the current dataset, the optimized traditional pipeline **HOG + SVM** achieves the highest absolute accuracy (**0.9899**), slightly outperforming the grayscale CNN model (**0.9869**).
+
+---
+
+### **In-depth Discussion**
+
+- **Effectiveness of Shape-based Features**  
+  HOG descriptors rely on gradient orientation distributions, which are particularly suitable for representing **structured and symmetric objects** such as human faces and face masks.  
+  With a moderately sized dataset, HOG provides a highly separable feature space without requiring complex learning processes.  
+  It should be noted that the CNN model in this project was trained on grayscale images using a **moderate architecture**, without leveraging pre-trained backbones or advanced data augmentation techniques.
+
+- **Dataset Size Constraints for CNNs**  
+  While CNNs are powerful representation learners, their full potential typically emerges when trained on **large-scale datasets**.  
+  With approximately **10,000 training images**, the CNN may have reached convergence but lacked sufficient data diversity to learn features more discriminative than the optimized HOG representation.
+
+- **Practical Implications**  
+  These findings indicate that in scenarios with **limited data and computational resources**, the combination of **hand-crafted features (HOG)** and a **strong classifier (SVM)** remains a highly effective and practical solution, offering both high accuracy and efficient inference.
+
+
+
+---
+
+## **Discussion**
+
+Experimental results indicate that:
+
+- The **HOG + SVM** pipeline provides the best overall performance.
+- **Traditional machine learning approaches** remain highly competitive when paired with effective feature engineering.
+- CNN performance is strong but **sensitive to architectural design and data volume**, particularly when trained from scratch.
+
+These findings highlight that **carefully engineered hand-crafted features can outperform deep learning models** in structured vision tasks with limited or moderately sized datasets.
+
+---
+
+## **Conclusion & Future Work**
+In conclusion, this project demonstrates that classical computer vision pipelines, when carefully engineered and optimized, can rival or even surpass deep learning models in structured vision tasks with limited data.
+
+
+This project demonstrates that **classical computer vision techniques**, when properly optimized, remain highly effective for real-world applications such as face mask detection.
+
+Potential future extensions include:
+- Applying **Transfer Learning** with advanced CNN backbones (e.g., ResNet, MobileNet)
+- Extending the system to **multi-class mask type classification**
+- Optimizing deployment for **edge and embedded devices**
+
+---
+
+## **License**
+
+This project is developed for **academic purposes** under the course  
+**CS231.Q11 – Introduction to Computer Vision** at the **University of Information Technology (UIT)**.
+
+Released under the **MIT License**.
+See the [LICENSE](./LICENSE) file for details.
