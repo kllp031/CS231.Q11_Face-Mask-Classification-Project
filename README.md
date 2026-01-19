@@ -63,26 +63,37 @@
 ## **Repository Structure**
 ```text
 CS231.Q11_Face-Mask-Classification-Project/
-├── src/                        # Model training notebooks
-│   ├── CNN/                    # CNN training
-│   ├── HOG_KNN/                # KNN with HOG features
-│   ├── HOG_RF/                 # Random Forest with HOG
-│   ├── HOG_SVM/                # SVM with HOG
-│   ├── LBP_KNN/                # KNN with LBP
-│   ├── LBP_RF/                 # Random Forest with LBP
-│   └── LBP_SVM/                # SVM with LBP
+├── src/            # Model Training Source Code (jupyter notebook files)
+│   ├── CNN/                 	# Deep Learning CNN (Grayscale) training source code
+│   ├── HOG_KNN/               # KNN training with HOG features source code
+│   ├── HOG_RF/              	# Random Forest training with HOG features source code
+│   ├── HOG_SVM/  				# SVM training with HOG features source code
+│   ├── LBP_KNN/  				# KNN training with LBP features source code
+│   ├── LBP_RF/  				# Random Forest training with LBP features source code
+│   └── LBP_SVM/				# SVM training with LBP features source code
+│
 ├── models/
-│   ├── yunet.onnx              # Face detection model
-│   ├── mask_detector_model.h5  # Trained CNN model
-│   └── *.joblib                # Traditional ML models
+│   ├── yunet.onnx              # Pre-trained Face Detection model (Included)
+│   ├── mask_detector_model.h5  # Trained Mask Classification model (Included)
+│   └── [others].joblib/.keras        # Large models/caches (Ignored - Download link below)
+│
 ├── docs/                       # Report & presentation
-├── static/                     # UI assets and outputs
-│   ├── templates/              # HTML templates
-│   └── results/                # Output images
-├── demo_webcam.py              # Real-time webcam demo
-├── demoSVM_image_flask.py      # Flask web application
-├── requirements.txt            # Dependencies
-└── README.md
+│   ├── 23520213-23521143-23521168_Report.pdf
+│   └── 23520213-23521143-23521168_Slide.pdf
+│
+├── static/                     # Static Assets
+│   ├── images/                 # Images for Slide, Report, and Thumbnails
+│   ├── results/                # Output images from Flask Web Demo
+│   ├── templates/              # Web UI (index.html, indexSVM.html)
+│   └── test/                   # Sample test images (e.g., test.jpg)
+│
+├── uploads/                    # Temporary storage for user-uploaded images
+├── demo_webcam.py              # Real-time Webcam detection script
+├── demoSVM_image_flask.py      # Flask Web Application script
+├── requirements.txt            # Python dependencies
+├── LICENSE
+├──  .gitignore                  # Git ignore rules
+└── README.md # Main project documentation
 ```
 
 ---
