@@ -13,11 +13,16 @@
 </p>
 
 ---
-# **CS231 Course Project: Face Mask Classification System**
+# **CS231 Course Project: Face Mask Classification**
 
-> This repository contains the implementation of a **Face Mask Classification System** developed for the course **CS231.Q11 – Introduction to Computer Vision** at the **University of Information Technology (UIT – VNU-HCM)**.
+> This repository contains the implementation of a **Face Mask Classification System**, developed as the final project for **CS231.Q11 – Introduction to Computer Vision** at the **University of Information Technology (UIT – VNU-HCM)**.
 >
 > The project performs a comparative study between traditional Machine Learning approaches (using **HOG** and **LBP** feature descriptors with **SVM, KNN, and Random Forest** classifiers) and modern **Convolutional Neural Networks (CNN)** to identify individuals wearing masks versus those without masks.
+>
+> The primary objective of this project is to **analyze and compare the effectiveness of traditional Machine Learning pipelines versus Deep Learning approaches** for the task of **face mask detection**, a binary image classification problem with real-world relevance in public health and surveillance systems.
+>
+> The project emphasizes **methodological comparison**, **feature representation**, and **performance evaluation**, rather than solely maximizing accuracy through deep models.
+
 
 <p align="center">
   <img src="static/images/thumbnail.png" alt="thumbnail" width="600">
@@ -34,3 +39,187 @@
 
 
 ---
+
+## **Table of Contents**
+- [Repository Structure](#repository-structure)
+- [Problem Statement](#problem-statement)
+- [System Overview](#system-overview)
+- [Key Features](#key-features)
+- [Dataset](#dataset)
+- [Data Preprocessing](#data-preprocessing)
+- [Feature Extraction](#feature-extraction)
+- [Model Architectures](#model-architectures)
+- [Training & Optimization](#training--optimization)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Demo Application](#demo-application)
+- [Experimental Results](#experimental-results)
+- [Discussion](#discussion)
+- [Conclusion & Future Work](#conclusion--future-work)
+- [License](#license)
+
+---
+
+## **Repository Structure**
+```text
+CS231.Q11_Face-Mask-Classification-Project/
+├── src/                        # Model training notebooks
+│   ├── CNN/                    # CNN training
+│   ├── HOG_KNN/                # KNN with HOG features
+│   ├── HOG_RF/                 # Random Forest with HOG
+│   ├── HOG_SVM/                # SVM with HOG
+│   ├── LBP_KNN/                # KNN with LBP
+│   ├── LBP_RF/                 # Random Forest with LBP
+│   └── LBP_SVM/                # SVM with LBP
+├── models/
+│   ├── yunet.onnx              # Face detection model
+│   ├── mask_detector_model.h5  # Trained CNN model
+│   └── *.joblib                # Traditional ML models
+├── docs/                       # Report & presentation
+├── static/                     # UI assets and outputs
+│   ├── templates/              # HTML templates
+│   └── results/                # Output images
+├── demo_webcam.py              # Real-time webcam demo
+├── demoSVM_image_flask.py      # Flask web application
+├── requirements.txt            # Dependencies
+└── README.md
+```
+
+---
+
+## **Problem Statement**
+
+Face mask detection is a practical computer vision problem that requires **robust facial feature representation** under variations in:
+- Illumination
+- Pose
+- Occlusion
+- Mask styles and colors
+
+The goal of this project is to:
+1. Evaluate whether **hand-crafted features (HOG, LBP)** combined with classical classifiers can compete with CNN-based approaches.
+2. Analyze trade-offs between **accuracy, computational cost, and deployment complexity**.
+3. Develop a system capable of **real-time inference** using standard consumer hardware.
+
+---
+
+## **System Overview**
+
+The proposed system consists of three main components:
+
+1. **Offline Training Pipeline**
+   - Image preprocessing
+   - Feature extraction
+   - Model training and hyperparameter optimization
+
+2. **Inference Pipeline**
+   - Face detection using **YuNet**
+   - Feature extraction / CNN inference
+   - Classification and post-processing
+
+3. **Deployment Interfaces**
+   - Flask-based web application (static image classification)
+   - Real-time webcam detection
+
+---
+
+## **Key Features**
+
+- **Binary Face Mask Classification** with high accuracy
+- **Comparative Study** between:
+  - Traditional ML: HOG/LBP + SVM, KNN, Random Forest
+  - Deep Learning: Custom CNN
+- **Automated Hyperparameter Tuning**
+  - Optuna for ML models
+  - Keras Tuner (Hyperband) for CNN
+- **Real-time Detection** using webcam input
+- **User-friendly Web Interface** built with Flask
+
+---
+
+## **Dataset**
+
+### Face Mask 12K Images Dataset
+
+- **Source**: Kaggle  
+  🔗 https://www.kaggle.com/datasets/ashishjangra27/face-mask-12k-images-dataset
+- **Total Images**: Approximately **12,000 RGB images**
+- **Image Characteristics**:
+  - Diverse facial orientations
+  - Multiple ethnicities
+  - Various mask types and lighting conditions
+
+### Dataset Structure
+- **Training Set**: 10,000 images  
+- **Validation Set**: 800 images  
+- **Test Set**: 992 images  
+
+The dataset is well-balanced between the two classes, making it suitable for unbiased binary classification evaluation.
+
+---
+
+## **Data Preprocessing**
+
+To ensure consistency and reduce computational complexity, the following preprocessing steps were applied:
+
+1. **Resizing**
+   - All images resized to **128 × 128 pixels**
+
+2. **Normalization**
+   - Pixel intensities scaled to the range **[0, 1]**
+
+3. **Grayscale Conversion**
+   - Applied for traditional ML pipelines
+   - Reduces dimensionality while preserving structural facial features
+
+---
+
+## **Feature Extraction**
+
+### Histogram of Oriented Gradients (HOG)
+- Captures **edge and shape information**
+- Effective for representing facial geometry
+- Tested configurations:
+  - `6 × 3` cells
+  - `8 × 2` cells (best-performing)
+
+### Local Binary Patterns (LBP)
+- Encodes **local texture patterns**
+- Robust to illumination changes
+- Useful for modeling fine-grained facial textures
+
+---
+
+## **Model Architectures**
+
+### Traditional Machine Learning Models
+- **Support Vector Machine (SVM)** with RBF kernel
+- **K-Nearest Neighbors (KNN)**
+- **Random Forest**
+
+These models operate on extracted HOG or LBP feature vectors.
+
+### Deep Learning Model
+- Custom **Convolutional Neural Network (CNN)**
+- Lightweight architecture optimized for grayscale input
+- Designed to balance performance and training efficiency
+
+---
+
+## **Training & Optimization**
+
+- **Traditional ML Models**
+  - Hyperparameters optimized using **Optuna**
+  - Objective: maximize validation accuracy
+
+- **CNN**
+  - Optimized using **Keras Tuner (Hyperband)**
+  - Tuned parameters include:
+    - Number of convolutional layers
+    - Filter sizes
+    - Learning rate
+    - Dropout rate
+
+---
+
+
+
