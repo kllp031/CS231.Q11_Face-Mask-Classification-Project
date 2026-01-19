@@ -311,7 +311,9 @@ Designed for high-speed monitoring, this pipeline utilizes a specialized deep le
 <p align="center">
   <img src="static/images/demo_gif.gif" alt="Video real-time demo" width="800">
 </p>
+
 ---
+## **Experimental Results**
 
 ### **Test Accuracy Comparison**
 
