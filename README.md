@@ -15,9 +15,9 @@
 ---
 # **CS231 Course Project: Face Mask Classification System**
 
-> [cite_start]This repository contains the implementation of a **Face Mask Classification System** developed for the course **CS231.Q11 – Introduction to Computer Vision** at the **University of Information Technology (UIT – VNU-HCM)**[cite: 1196, 1203].
+> This repository contains the implementation of a **Face Mask Classification System** developed for the course **CS231.Q11 – Introduction to Computer Vision** at the **University of Information Technology (UIT – VNU-HCM)**.
 >
-> [cite_start]The project performs a comparative study between traditional Machine Learning approaches (using **HOG** and **LBP** feature descriptors with **SVM, KNN, and Random Forest** classifiers) and modern **Convolutional Neural Networks (CNN)** to identify individuals wearing masks versus those without masks[cite: 1248, 1258].
+> The project performs a comparative study between traditional Machine Learning approaches (using **HOG** and **LBP** feature descriptors with **SVM, KNN, and Random Forest** classifiers) and modern **Convolutional Neural Networks (CNN)** to identify individuals wearing masks versus those without masks.
 
 <p align="center">
   <img src="static/images/thumbnail.png" alt="thumbnail" width="600">
