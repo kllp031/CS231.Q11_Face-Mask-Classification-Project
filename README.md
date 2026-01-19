@@ -300,6 +300,10 @@ The system achieves **over 25 FPS** on standard consumer-grade hardware.
   <img src="static/images/demo/flask_web_demo.png" alt="Flask Web Demo Interface" width="800">
 </p>
 
+<p align="center">
+  <img src="static/images/demo_gif.gif" alt="Video real-time demo" width="800">
+</p>
+
 ---
 
 ### **Test Accuracy Comparison**
